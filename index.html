@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simple JS Counter</title>
+    <!-- Load Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Custom styles for the font */
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        /* Custom focus state to look nice */
+        .btn-primary:focus {
+            box-shadow: 0 0 0 4px rgba(66, 153, 225, 0.5);
+            outline: none;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen flex items-center justify-center p-4">
+
+    <!-- Counter Application Container -->
+    <div class="bg-white p-8 rounded-xl shadow-2xl w-full max-w-md">
+        <h1 class="text-3xl font-extrabold text-gray-800 mb-6 text-center">
+            JavaScript Counter
+        </h1>
+
+        <!-- Counter Display -->
+        <div id="counter-display" class="text-7xl font-mono font-bold text-center py-10 mb-8 bg-indigo-50 rounded-lg text-indigo-700 shadow-inner">
+            0
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="flex space-x-4">
+            <button id="decrement-btn"
+                    class="btn-primary flex-1 bg-red-500 hover:bg-red-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02] shadow-lg">
+                Decrement (-)
+            </button>
+            <button id="increment-btn"
+                    class="btn-primary flex-1 bg-green-500 hover:bg-green-600 text-white font-semibold py-3 px-4 rounded-lg transition duration-200 transform hover:scale-[1.02] shadow-lg">
+                Increment (+)
+            </button>
+        </div>
+
+        <p id="message-box" class="text-center mt-6 text-sm text-gray-500 min-h-[1.5rem]"></p>
+    </div>
+
+    <script>
+        // Get references to the elements
+        const counterDisplay = document.getElementById('counter-display');
+        const decrementBtn = document.getElementById('decrement-btn');
+        const incrementBtn = document.getElementById('increment-btn');
+        const messageBox = document.getElementById('message-box');
+
+        // Initialize the counter state
+        let count = 0;
+
+        /**
+         * Updates the counter display in the UI and applies a visual feedback effect.
+         */
+        function updateDisplay(newCount) {
+            count = newCount;
+            counterDisplay.textContent = count;
+
+            // Simple pulse animation/feedback
+            counterDisplay.classList.add('transition', 'duration-150', 'scale-[1.05]');
+            setTimeout(() => {
+                counterDisplay.classList.remove('scale-[1.05]');
+            }, 150);
+
+            // Update message box based on value
+            if (count > 0) {
+                messageBox.textContent = `Counter is positive! (${count})`;
+                messageBox.className = 'text-center mt-6 text-sm text-green-600 min-h-[1.5rem]';
+            } else if (count < 0) {
+                messageBox.textContent = `Counter is negative! (${count})`;
+                messageBox.className = 'text-center mt-6 text-sm text-red-600 min-h-[1.5rem]';
+            } else {
+                messageBox.textContent = 'Counter is zero.';
+                messageBox.className = 'text-center mt-6 text-sm text-gray-500 min-h-[1.5rem]';
+            }
+        }
+
+        /**
+         * Event handler for the Increment button.
+         */
+        function handleIncrement() {
+            updateDisplay(count + 1);
+        }
+
+        /**
+         * Event handler for the Decrement button.
+         */
+        function handleDecrement() {
+            updateDisplay(count - 1);
+        }
+
+        // Attach event listeners to the buttons
+        incrementBtn.addEventListener('click', handleIncrement);
+        decrementBtn.addEventListener('click', handleDecrement);
+
+        // Initial setup call
+        window.onload = () => {
+            updateDisplay(0);
+        };
+
+    </script>
+</body>
+</html>
